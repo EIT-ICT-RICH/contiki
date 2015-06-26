@@ -88,7 +88,7 @@ unsigned char node_mac[8];
 
 /* Symbol defined by the linker script
  * marks the end of the stack taking into account the used heap  */
-extern uint32_t heap_location;
+extern uint32_t _heap_location;
 
 
 #ifndef NETSTACK_CONF_WITH_IPV4
@@ -274,7 +274,7 @@ int
 main(void)
 {
   /* Set stack overflow address for detecting overflow in runtime */
-  vAHI_SetStackOverflow(TRUE, ((uint32_t *)&heap_location)[0]);
+  vAHI_SetStackOverflow(TRUE, ((uint32_t *)&_heap_location)[0]);
 
   clock_init();
   watchdog_init();

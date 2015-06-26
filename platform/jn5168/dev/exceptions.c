@@ -159,7 +159,7 @@ debug_file_line(const char *file, int line)
 /***        Local Variables                                               ***/
 /****************************************************************************/
 
-extern uint32 heap_location;
+extern uint32 _heap_location;
 extern void *(*prHeap_AllocFunc)(void *, uint32, bool_t);
 PRIVATE void *(*prHeap_AllocOrig)(void *, uint32, bool_t);
 
@@ -344,7 +344,7 @@ PRIVATE void vExceptionHandler(uint32 *pu32Stack, eExceptionType eType)
 	u32Stack = pu32Stack[STACK_REG];
 
 	/* Log the exception */
-//	vLog_Printf(TRACE_EXC, LOG_CRIT, "\n\n\n%s EXCEPTION @ %08x (EA: %08x SK: %08x HP: %08x)", pcString, u32EPCR, u32EEAR, u32Stack, ((uint32 *)&heap_location)[0]);
+//	vLog_Printf(TRACE_EXC, LOG_CRIT, "\n\n\n%s EXCEPTION @ %08x (EA: %08x SK: %08x HP: %08x)", pcString, u32EPCR, u32EEAR, u32Stack, ((uint32 *)&_heap_location)[0]);
 //    vSL_LogFlush();
 	printstring("\n\n\n");
 	printstring(pcString);
@@ -355,7 +355,7 @@ PRIVATE void vExceptionHandler(uint32 *pu32Stack, eExceptionType eType)
 	printstring("  SK: ");
 	hexprint32(u32Stack);
 	printstring("  HP: ");
-	hexprint32(((uint32 *)&heap_location)[0]);
+	hexprint32(((uint32 *)&_heap_location)[0]);
 	printstring("\n");
   printstring(" File: ");
   printstring(debug_filename);
@@ -449,7 +449,7 @@ PRIVATE void *pvHeapAllocOverflowProtect(void *pvPointer, uint32 u32Size, bool_t
    * stack size.
    */
   /* Set stack overflow address */
-  vAHI_SetStackOverflow(TRUE, ((uint32 *)&heap_location)[0]);
+  vAHI_SetStackOverflow(TRUE, ((uint32 *)&_heap_location)[0]);
   return pvAlloc;
 }
 
